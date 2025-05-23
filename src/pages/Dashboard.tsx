@@ -1,8 +1,9 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, CreditCard, Globe, Mail, ArrowLeft, LogOut } from "lucide-react";
+import { Plus, CreditCard, Globe, Mail, ArrowLeft, LogOut, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import AddPasswordModal from "@/components/AddPasswordModal";
@@ -81,34 +82,41 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-2 sm:p-4 lg:p-6">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate("/")}
-              className="text-gray-600 hover:text-gray-900"
+              className="text-gray-600 hover:text-gray-900 self-start"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
+              <span className="hidden sm:inline">Back to Home</span>
+              <span className="sm:hidden">Back</span>
             </Button>
-            <h1 className="text-3xl font-bold text-gray-900">Password Dashboard</h1>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+              <span className="sm:hidden">Dashboard</span>
+              <span className="hidden sm:inline">Password Dashboard</span>
+            </h1>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <Button
               onClick={() => setShowAddModal(true)}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
+              size="sm"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Add Password
+              <span className="sm:hidden">Add</span>
+              <span className="hidden sm:inline">Add Password</span>
             </Button>
             <Button
               onClick={handleLogout}
               variant="outline"
-              className="text-red-600 border-red-200 hover:bg-red-50"
+              className="text-red-600 border-red-200 hover:bg-red-50 w-full sm:w-auto"
+              size="sm"
             >
               <LogOut className="w-4 h-4 mr-2" />
               Logout
@@ -117,49 +125,55 @@ const Dashboard = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Passwords</CardTitle>
-              <div className="w-4 h-4 text-blue-600">🔒</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
+          <Card className="p-3 sm:p-4">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0 sm:p-2">
+              <CardTitle className="text-xs sm:text-sm font-medium">Total Passwords</CardTitle>
+              <div className="text-sm sm:text-base">🔒</div>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{passwords.length}</div>
+            <CardContent className="p-0 sm:p-2 pt-2">
+              <div className="text-xl sm:text-2xl font-bold">{passwords.length}</div>
             </CardContent>
           </Card>
           
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Card Passwords</CardTitle>
-              <CreditCard className="w-4 h-4 text-blue-600" />
+          <Card className="p-3 sm:p-4">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0 sm:p-2">
+              <CardTitle className="text-xs sm:text-sm font-medium">Card Passwords</CardTitle>
+              <CreditCard className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{getPasswordsByType("card").length}</div>
+            <CardContent className="p-0 sm:p-2 pt-2">
+              <div className="text-xl sm:text-2xl font-bold">{getPasswordsByType("card").length}</div>
             </CardContent>
           </Card>
           
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Website Passwords</CardTitle>
-              <Globe className="w-4 h-4 text-blue-600" />
+          <Card className="p-3 sm:p-4 sm:col-span-2 lg:col-span-1">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0 sm:p-2">
+              <CardTitle className="text-xs sm:text-sm font-medium">Website Passwords</CardTitle>
+              <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{getPasswordsByType("website").length}</div>
+            <CardContent className="p-0 sm:p-2 pt-2">
+              <div className="text-xl sm:text-2xl font-bold">{getPasswordsByType("website").length}</div>
             </CardContent>
           </Card>
         </div>
 
         {/* Password Categories */}
-        <Tabs defaultValue="all" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="all">All Passwords</TabsTrigger>
-            <TabsTrigger value="card">Cards</TabsTrigger>
-            <TabsTrigger value="website">Websites</TabsTrigger>
-            <TabsTrigger value="email">Email Accounts</TabsTrigger>
+        <Tabs defaultValue="all" className="space-y-4 sm:space-y-6">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto p-1">
+            <TabsTrigger value="all" className="text-xs sm:text-sm px-2 py-2">
+              <span className="sm:hidden">All</span>
+              <span className="hidden sm:inline">All Passwords</span>
+            </TabsTrigger>
+            <TabsTrigger value="card" className="text-xs sm:text-sm px-2 py-2">Cards</TabsTrigger>
+            <TabsTrigger value="website" className="text-xs sm:text-sm px-2 py-2">
+              <span className="sm:hidden">Web</span>
+              <span className="hidden sm:inline">Websites</span>
+            </TabsTrigger>
+            <TabsTrigger value="email" className="text-xs sm:text-sm px-2 py-2">Email</TabsTrigger>
           </TabsList>
 
           <TabsContent value="all" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
               {passwords.map((password) => (
                 <PasswordCard 
                   key={password.id} 
@@ -171,7 +185,7 @@ const Dashboard = () => {
           </TabsContent>
 
           <TabsContent value="card" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
               {getPasswordsByType("card").map((password) => (
                 <PasswordCard 
                   key={password.id} 
@@ -183,7 +197,7 @@ const Dashboard = () => {
           </TabsContent>
 
           <TabsContent value="website" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
               {getPasswordsByType("website").map((password) => (
                 <PasswordCard 
                   key={password.id} 
@@ -195,7 +209,7 @@ const Dashboard = () => {
           </TabsContent>
 
           <TabsContent value="email" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
               {getPasswordsByType("email").map((password) => (
                 <PasswordCard 
                   key={password.id} 
