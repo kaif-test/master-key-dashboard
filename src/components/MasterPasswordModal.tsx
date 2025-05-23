@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Lock, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface MasterPasswordModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ const MasterPasswordModal = ({ isOpen, onClose }: MasterPasswordModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { login } = useAuth();
 
   const MASTER_PASSWORD = "admin123"; // In a real app, this would be hashed and stored securely
 
@@ -30,6 +32,7 @@ const MasterPasswordModal = ({ isOpen, onClose }: MasterPasswordModalProps) => {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     if (password === MASTER_PASSWORD) {
+      login(); // Set authentication state
       toast({
         title: "Access Granted",
         description: "Welcome to your secure dashboard!",

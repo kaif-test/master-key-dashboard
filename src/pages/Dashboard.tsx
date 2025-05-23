@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, CreditCard, Globe, Mail, ArrowLeft } from "lucide-react";
+import { Plus, CreditCard, Globe, Mail, ArrowLeft, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import AddPasswordModal from "@/components/AddPasswordModal";
 import PasswordCard from "@/components/PasswordCard";
 
@@ -25,6 +25,7 @@ export interface Password {
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [showAddModal, setShowAddModal] = useState(false);
   const [passwords, setPasswords] = useState<Password[]>([
     {
@@ -74,6 +75,11 @@ const Dashboard = () => {
     return passwords.filter(p => p.type === type);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4">
       <div className="max-w-6xl mx-auto">
@@ -91,13 +97,23 @@ const Dashboard = () => {
             </Button>
             <h1 className="text-3xl font-bold text-gray-900">Password Dashboard</h1>
           </div>
-          <Button
-            onClick={() => setShowAddModal(true)}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Password
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => setShowAddModal(true)}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Password
+            </Button>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="text-red-600 border-red-200 hover:bg-red-50"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
 
         {/* Stats Cards */}
