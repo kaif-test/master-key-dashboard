@@ -2,7 +2,7 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/4359c631-3061-4f98-9a55-20dce2493c9c
+**URL**: https://master-key-dashboard.lovable.app/
 
 ## How can I edit this code?
 
